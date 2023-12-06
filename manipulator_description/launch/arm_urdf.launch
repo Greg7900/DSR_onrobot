@@ -1,0 +1,56 @@
+<launch>
+	<arg name="arg_x" default="0.00" />
+	<arg name="arg_y" default="0.00" />
+	<arg name="arg_z" default="0.00" />
+	<arg name="arg_R" default="0.00" />
+	<arg name="arg_P" default="0.00" />
+	<arg name="arg_Y" default="0.00" />
+		<!-- Launch file parameters -->
+	<arg name="paused"     default="false"/>
+    <arg name="debug" default="false" />
+	<arg name="recording"  default="false"/>
+
+	<arg name="rate"       default="125" />
+
+
+
+    <arg name="model"   default="m0609"/>
+    <arg name="ns"      default=""/>
+    <arg name="gui"     default="True" />
+    <arg name="remap"   default="False"/>
+    <arg name="color"   default="white"/>
+    <arg name="gripper" default="none"/>
+    <arg name="eye_on"  default="True"/>
+
+
+
+  <!-- Load universal robot description format (URDF) -->
+  	<param  name="robot_description" textfile="$(find manipulator_description)/urdf/Custom_dsr.urdf"/>
+
+	<!-- Start up simulated world -->
+	<include file="$(find gazebo_ros)/launch/empty_world.launch">
+		<arg name="use_sim_time" value="true"/>
+		<arg name="paused"     value="$(arg paused)"/>
+		<arg name="debug"      value="$(arg debug)"/>
+		<arg name="recording"  value="$(arg recording)"/>
+		<arg name="gui"        value="$(arg gui)"/>
+		<!-- <arg name="physics"    value="bullet"/> -->  
+	</include>
+
+  	<!-- If needed, broadcast static tf for robot root -->
+  	<node pkg="tf2_ros" type="static_transform_publisher" name="virtual_joint" args="0 0 0 0 0 0 world base_0" />	
+	
+	
+	<node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" 
+        args="-urdf -param robot_description -model dsr_onrobot_rg2" output="screen" />	
+
+	<!--Load and launch the joint trajectory controller-->
+	<rosparam file ="$(find doosan_moveit_config)/config/joint_trajectory_controller.yaml" command="load"/>
+	<node name= "controller_spawner" pkg= "controller_manager" type="spawner" respawn="false" output="screen" args="joint_state_controller doosan_controller gripper_controller"/>
+	
+	<!-- Robot State Publisher for TF of each joint: publishes all the current states of the joint, then RViz can visualize -->
+	
+	<node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen"/>
+	
+
+</launch>

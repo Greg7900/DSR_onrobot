@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<launch>
+ 
+  
+  
+  <include file="$(find doosan_moveit_config)/launch/demo_gazebo.launch">
+    <!-- robot_description is loaded by gazebo.launch, to enable Gazebo features -->
+    <arg name="world_name" value="$(find doosan_gazebo_sim)/worlds/animated_box.world" />
+
+  </include>
+</launch>

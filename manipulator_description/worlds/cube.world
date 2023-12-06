@@ -1,0 +1,33 @@
+<?xml version="1.0" ?>
+<sdf version='1.6'>
+    <world name='default'>
+        <!-- A global light source -->
+        <include>
+            <uri>model://sun</uri>
+        </include>
+
+        <!-- A ground plane -->
+        <include>
+            <uri>model://ground_plane</uri>
+        </include>
+
+        
+
+        <!--CUBES-->
+        <model name='cube_blue'>
+            <include>
+                <uri>model://cube_blue</uri>
+            </include>
+            <pose frame=''>0.25 0.0357 0.011 0.0 0.0 0.5</pose>
+        </model>
+
+        
+        <physics name='default_physics' default='0' type='ode'>
+            <max_step_size>0.001</max_step_size>
+            <real_time_factor>1</real_time_factor>
+            <real_time_update_rate>1000</real_time_update_rate>
+        </physics>
+
+
+    </world>
+</sdf>

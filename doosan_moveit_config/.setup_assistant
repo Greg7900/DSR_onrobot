@@ -1,0 +1,11 @@
+moveit_setup_assistant_config:
+  URDF:
+    package: manipulator_description
+    relative_path: urdf/Custom_dsr.urdf
+    xacro_args: ""
+  SRDF:
+    relative_path: config/m0609.srdf
+  CONFIG:
+    author_name: Gregory.D
+    author_email: gregorydavillars@hotmail.fr
+    generated_timestamp: 1701714787
